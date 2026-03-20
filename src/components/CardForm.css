@@ -1,0 +1,56 @@
+.card-form {
+  background-color: #16213e;
+  border-radius: 8px;
+  padding: 16px 20px;
+  margin: 0 20px;
+}
+
+.card-form__title {
+  font-size: 1rem;
+  margin-bottom: 12px;
+  color: #ffffff;
+}
+
+.card-form__fields {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.card-form__input,
+.card-form__select {
+  padding: 8px 12px;
+  border: 1px solid #0f3460;
+  border-radius: 6px;
+  background-color: #1a1a2e;
+  color: #e0e0e0;
+  font-size: 0.85rem;
+  flex: 1;
+  min-width: 140px;
+}
+
+.card-form__input:focus,
+.card-form__select:focus {
+  outline: none;
+  border-color: #533483;
+}
+
+.card-form__input::placeholder {
+  color: #555577;
+}
+
+.card-form__button {
+  padding: 8px 20px;
+  border: none;
+  border-radius: 6px;
+  background-color: #533483;
+  color: #ffffff;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.card-form__button:hover {
+  background-color: #6a42a0;
+}

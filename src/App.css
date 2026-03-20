@@ -1,0 +1,39 @@
+.app {
+  min-height: 100vh;
+}
+
+.app__header {
+  text-align: center;
+  padding: 20px;
+  background-color: #0f3460;
+}
+
+.app__header h1 {
+  font-size: 1.5rem;
+  color: #ffffff;
+  margin-bottom: 4px;
+}
+
+.app__header p {
+  font-size: 0.85rem;
+  color: #8888aa;
+}
+
+.app__loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-size: 1.2rem;
+  color: #8888aa;
+}
+
+.app__error {
+  background-color: rgba(244, 67, 54, 0.1);
+  border: 1px solid #f44336;
+  color: #f44336;
+  padding: 12px 20px;
+  margin: 10px 20px;
+  border-radius: 8px;
+  text-align: center;
+}
