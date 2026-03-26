@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import Board from './components/Board';
-import CardForm from './components/CardForm';
-import { getCards, createCard, moveCard, deleteCard } from './services/api';
+import CardModal from './components/CardModal';
+import { getCards, createCard, updateCard, moveCard, deleteCard } from './services/api';
 import './App.css';
 
 function App() {
@@ -9,14 +9,17 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // Busca os cards da API quando o componente monta
+  // Estado do modal
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingCard, setEditingCard] = useState(null);
+
   const fetchCards = async () => {
     try {
       setError(null);
       const data = await getCards();
       setCards(data);
     } catch (err) {
-      setError('Erro ao carregar cards. Verifique se o backend está rodando.');
+      setError('Erro ao carregar cards. Verifique se o backend esta rodando.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -27,25 +30,33 @@ function App() {
     fetchCards();
   }, []);
 
-  // Cria um novo card
-  const handleCreate = async (cardData) => {
-    try {
-      const created = await createCard(cardData);
-      setCards((prev) => [...prev, created]);
-    } catch (err) {
-      console.error(err);
-      alert('Erro ao criar card.');
-    }
+  // Abre modal para criar
+  const handleOpenCreate = () => {
+    setEditingCard(null);
+    setModalOpen(true);
   };
 
-  // Move card para outra coluna
-  const handleMove = async (id, newStatus) => {
+  // Abre modal para editar
+  const handleEdit = (card) => {
+    setEditingCard(card);
+    setModalOpen(true);
+  };
+
+  // Salva (criar ou editar)
+  const handleSave = async (cardData) => {
     try {
-      const updated = await moveCard(id, newStatus);
-      setCards((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+      if (editingCard) {
+        // Editar — usa PUT
+        const updated = await updateCard(editingCard.id, cardData);
+        setCards((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+      } else {
+        // Criar — usa POST
+        const created = await createCard(cardData);
+        setCards((prev) => [...prev, created]);
+      }
     } catch (err) {
       console.error(err);
-      alert('Erro ao mover card.');
+      alert('Erro ao salvar card.');
     }
   };
 
@@ -77,12 +88,21 @@ function App() {
 
       {error && <div className="app__error">{error}</div>}
 
-      <CardForm onSubmit={handleCreate} />
-
       <Board
         cards={cards}
-        onMove={handleMove}
+        onEdit={handleEdit}
         onDelete={handleDelete}
+      />
+
+      <button className="fab" onClick={handleOpenCreate} title="Novo Card">
+        +
+      </button>
+
+      <CardModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSave={handleSave}
+        editingCard={editingCard}
       />
     </div>
   );
