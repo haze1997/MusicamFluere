@@ -1,9 +1,29 @@
+import { useState } from 'react';
 import PriorityBadge from './PriorityBadge';
+import Avatar from './Avatar';
 import './Card.css';
 
 function Card({ card, onEdit, onDelete }) {
+  const [isDragging, setIsDragging] = useState(false);
+
+  const handleDragStart = (e) => {
+    e.dataTransfer.setData('text/plain', card.id);
+    e.dataTransfer.effectAllowed = 'move';
+    setIsDragging(true);
+  };
+
+  const handleDragEnd = () => {
+    setIsDragging(false);
+  };
+
   return (
-    <div className="card" onClick={() => onEdit(card)}>
+    <div
+      className={`card ${isDragging ? 'card--dragging' : ''}`}
+      draggable="true"
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+      onClick={() => onEdit(card)}
+    >
       <div className="card__header">
         <h4 className="card__title">{card.title}</h4>
         <button
@@ -23,7 +43,10 @@ function Card({ card, onEdit, onDelete }) {
       )}
 
       <div className="card__footer">
-        <span className="card__assignee">{card.assignee}</span>
+        <div className="card__assignee-info">
+          <Avatar name={card.assignee} />
+          <span className="card__assignee">{card.assignee}</span>
+        </div>
         <PriorityBadge priority={card.priority} />
       </div>
     </div>

@@ -4,4 +4,12 @@
   padding: 20px;
   flex: 1;
   overflow-x: auto;
+  animation: fadeIn 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .board {
+    flex-direction: column;
+    padding: 12px;
+  }
 }

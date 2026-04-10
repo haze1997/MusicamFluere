@@ -3,7 +3,7 @@ import './Board.css';
 
 const STATUSES = ['Backlog', 'ToDo', 'Doing', 'Testing', 'Done'];
 
-function Board({ cards, onEdit, onDelete }) {
+function Board({ cards, onEdit, onDelete, onMove }) {
   return (
     <div className="board">
       {STATUSES.map((status) => (
@@ -13,6 +13,7 @@ function Board({ cards, onEdit, onDelete }) {
           cards={cards.filter((card) => card.status === status)}
           onEdit={onEdit}
           onDelete={onDelete}
+          onMove={onMove}
         />
       ))}
     </div>

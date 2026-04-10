@@ -8,8 +8,6 @@ function App() {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // Estado do modal
   const [modalOpen, setModalOpen] = useState(false);
   const [editingCard, setEditingCard] = useState(null);
 
@@ -30,27 +28,22 @@ function App() {
     fetchCards();
   }, []);
 
-  // Abre modal para criar
   const handleOpenCreate = () => {
     setEditingCard(null);
     setModalOpen(true);
   };
 
-  // Abre modal para editar
   const handleEdit = (card) => {
     setEditingCard(card);
     setModalOpen(true);
   };
 
-  // Salva (criar ou editar)
   const handleSave = async (cardData) => {
     try {
       if (editingCard) {
-        // Editar — usa PUT
         const updated = await updateCard(editingCard.id, cardData);
         setCards((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
       } else {
-        // Criar — usa POST
         const created = await createCard(cardData);
         setCards((prev) => [...prev, created]);
       }
@@ -60,7 +53,17 @@ function App() {
     }
   };
 
-  // Deleta um card
+  // Move card — usado pelo drag and drop E pelo modal
+  const handleMove = async (id, newStatus) => {
+    try {
+      const updated = await moveCard(id, newStatus);
+      setCards((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+    } catch (err) {
+      console.error(err);
+      alert('Erro ao mover card.');
+    }
+  };
+
   const handleDelete = async (id) => {
     try {
       await deleteCard(id);
@@ -83,7 +86,7 @@ function App() {
     <div className="app">
       <header className="app__header">
         <h1>Scrum Board</h1>
-        <p>Gerencie suas tarefas com agilidade</p>
+        <p>Arraste cards entre colunas para organizar suas tarefas</p>
       </header>
 
       {error && <div className="app__error">{error}</div>}
@@ -92,6 +95,7 @@ function App() {
         cards={cards}
         onEdit={handleEdit}
         onDelete={handleDelete}
+        onMove={handleMove}
       />
 
       <button className="fab" onClick={handleOpenCreate} title="Novo Card">

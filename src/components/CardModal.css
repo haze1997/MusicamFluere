@@ -9,26 +9,27 @@
   flex-direction: column;
   gap: 4px;
   font-size: 0.85rem;
-  color: #8888aa;
+  color: var(--color-text-muted);
 }
 
 .card-modal-form__input,
 .card-modal-form__textarea,
 .card-modal-form__select {
   padding: 10px 12px;
-  border: 1px solid #0f3460;
-  border-radius: 6px;
-  background-color: #1a1a2e;
-  color: #e0e0e0;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-bg);
+  color: var(--color-text);
   font-size: 0.9rem;
   font-family: inherit;
+  transition: border-color var(--transition);
 }
 
 .card-modal-form__input:focus,
 .card-modal-form__textarea:focus,
 .card-modal-form__select:focus {
   outline: none;
-  border-color: #533483;
+  border-color: var(--color-primary);
 }
 
 .card-modal-form__textarea {
@@ -47,15 +48,20 @@
 .card-modal-form__button {
   padding: 12px;
   border: none;
-  border-radius: 6px;
-  background-color: #533483;
-  color: #ffffff;
+  border-radius: var(--radius);
+  background-color: var(--color-primary);
+  color: var(--color-white);
   font-size: 0.95rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s;
+  transition: background-color var(--transition), transform var(--transition);
 }
 
 .card-modal-form__button:hover {
-  background-color: #6a42a0;
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
+
+.card-modal-form__button:active {
+  transform: translateY(0);
 }
