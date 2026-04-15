@@ -1,22 +1,23 @@
 import { useState, useEffect } from 'react';
 import Board from './components/Board';
-import CardForm from './components/CardForm';
-import { getCards, createCard, moveCard, deleteCard } from './services/api';
+import CardModal from './components/CardModal';
+import { getCards, createCard, updateCard, moveCard, deleteCard } from './services/api';
 import './App.css';
 
 function App() {
   const [cards, setCards] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingCard, setEditingCard] = useState(null);
 
-  // Busca os cards da API quando o componente monta
   const fetchCards = async () => {
     try {
       setError(null);
       const data = await getCards();
       setCards(data);
     } catch (err) {
-      setError('Erro ao carregar cards. Verifique se o backend está rodando.');
+      setError('Erro ao carregar cards. Verifique se o backend esta rodando.');
       console.error(err);
     } finally {
       setLoading(false);
@@ -27,18 +28,32 @@ function App() {
     fetchCards();
   }, []);
 
-  // Cria um novo card
-  const handleCreate = async (cardData) => {
+  const handleOpenCreate = () => {
+    setEditingCard(null);
+    setModalOpen(true);
+  };
+
+  const handleEdit = (card) => {
+    setEditingCard(card);
+    setModalOpen(true);
+  };
+
+  const handleSave = async (cardData) => {
     try {
-      const created = await createCard(cardData);
-      setCards((prev) => [...prev, created]);
+      if (editingCard) {
+        const updated = await updateCard(editingCard.id, cardData);
+        setCards((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+      } else {
+        const created = await createCard(cardData);
+        setCards((prev) => [...prev, created]);
+      }
     } catch (err) {
       console.error(err);
-      alert('Erro ao criar card.');
+      alert('Erro ao salvar card.');
     }
   };
 
-  // Move card para outra coluna
+  // Move card — usado pelo drag and drop E pelo modal
   const handleMove = async (id, newStatus) => {
     try {
       const updated = await moveCard(id, newStatus);
@@ -49,7 +64,6 @@ function App() {
     }
   };
 
-  // Deleta um card
   const handleDelete = async (id) => {
     try {
       await deleteCard(id);
@@ -72,17 +86,27 @@ function App() {
     <div className="app">
       <header className="app__header">
         <h1>Scrum Board</h1>
-        <p>Gerencie suas tarefas com agilidade</p>
+        <p>Arraste cards entre colunas para organizar suas tarefas</p>
       </header>
 
       {error && <div className="app__error">{error}</div>}
 
-      <CardForm onSubmit={handleCreate} />
-
       <Board
         cards={cards}
-        onMove={handleMove}
+        onEdit={handleEdit}
         onDelete={handleDelete}
+        onMove={handleMove}
+      />
+
+      <button className="fab" onClick={handleOpenCreate} title="Novo Card">
+        +
+      </button>
+
+      <CardModal
+        isOpen={modalOpen}
+        onClose={() => setModalOpen(false)}
+        onSave={handleSave}
+        editingCard={editingCard}
       />
     </div>
   );

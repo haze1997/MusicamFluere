@@ -1,0 +1,67 @@
+.card-modal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.card-modal-form__label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+}
+
+.card-modal-form__input,
+.card-modal-form__textarea,
+.card-modal-form__select {
+  padding: 10px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-size: 0.9rem;
+  font-family: inherit;
+  transition: border-color var(--transition);
+}
+
+.card-modal-form__input:focus,
+.card-modal-form__textarea:focus,
+.card-modal-form__select:focus {
+  outline: none;
+  border-color: var(--color-primary);
+}
+
+.card-modal-form__textarea {
+  resize: vertical;
+}
+
+.card-modal-form__row {
+  display: flex;
+  gap: 12px;
+}
+
+.card-modal-form__row .card-modal-form__label {
+  flex: 1;
+}
+
+.card-modal-form__button {
+  padding: 12px;
+  border: none;
+  border-radius: var(--radius);
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+.card-modal-form__button:hover {
+  background-color: var(--color-primary-hover);
+  transform: translateY(-1px);
+}
+
+.card-modal-form__button:active {
+  transform: translateY(0);
+}

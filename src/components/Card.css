@@ -1,9 +1,26 @@
 .card {
-  background-color: #16213e;
-  border: 1px solid #0f3460;
-  border-radius: 8px;
+  background-color: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
   padding: 12px;
   margin-bottom: 8px;
+  cursor: grab;
+  transition: transform var(--transition), box-shadow var(--transition), opacity var(--transition);
+  animation: cardSlideIn 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+}
+
+.card:active {
+  cursor: grabbing;
+}
+
+.card--dragging {
+  opacity: 0.4;
+  transform: rotate(2deg);
 }
 
 .card__header {
@@ -16,7 +33,7 @@
 .card__title {
   font-size: 0.9rem;
   font-weight: 600;
-  color: #ffffff;
+  color: var(--color-white);
   flex: 1;
   margin-right: 8px;
 }
@@ -24,21 +41,27 @@
 .card__delete {
   background: none;
   border: none;
-  color: #e74c3c;
+  color: var(--color-text-dim);
   font-size: 1.2rem;
   cursor: pointer;
   padding: 0 4px;
   line-height: 1;
+  transition: color var(--transition);
+  opacity: 0;
+}
+
+.card:hover .card__delete {
+  opacity: 1;
 }
 
 .card__delete:hover {
-  color: #ff6b6b;
+  color: var(--color-error);
 }
 
 .card__description {
   font-size: 0.8rem;
   color: #a0a0b0;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   line-height: 1.4;
 }
 
@@ -46,54 +69,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 8px;
+}
+
+.card__assignee-info {
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .card__assignee {
   font-size: 0.75rem;
-  color: #8888aa;
-}
-
-.card__priority {
-  font-size: 0.7rem;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-
-.card__priority--low {
-  background-color: rgba(76, 175, 80, 0.2);
-  color: #4caf50;
-}
-
-.card__priority--medium {
-  background-color: rgba(255, 152, 0, 0.2);
-  color: #ff9800;
-}
-
-.card__priority--high {
-  background-color: rgba(244, 67, 54, 0.2);
-  color: #f44336;
-}
-
-.card__priority--urgent {
-  background-color: rgba(156, 39, 176, 0.2);
-  color: #9c27b0;
-}
-
-.card__move {
-  width: 100%;
-  padding: 4px 8px;
-  border: 1px solid #0f3460;
-  border-radius: 4px;
-  background-color: #1a1a2e;
-  color: #e0e0e0;
-  font-size: 0.8rem;
-  cursor: pointer;
-}
-
-.card__move:focus {
-  outline: none;
-  border-color: #533483;
+  color: var(--color-text-muted);
 }
