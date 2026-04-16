@@ -4,6 +4,15 @@ WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci
 COPY . .
+
+# 1. Puxa a variável que o Render está enviando no momento do build
+ARG VITE_API_URL
+ARG PORT
+
+# 2. Transforma o ARG em ENV para que o Vite consiga ler durante o comando abaixo
+ENV VITE_API_URL=$VITE_API_URL
+ENV PORT=$PORT
+
 RUN npm run build
 
 # ESTÁGIO 2: Produção
