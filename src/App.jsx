@@ -1,23 +1,42 @@
 import { useState, useEffect } from 'react';
 import Board from './components/Board';
-import CardModal from './components/CardModal';
-import { getCards, createCard, updateCard, moveCard, deleteCard } from './services/api';
+import EditMusicModal from './components/EditMusicModal';
+import ArtistModal from './components/ArtistModal';
+import ViewMusicModal from './components/ViewMusicModal';
+import { getMusics, getArtists, createMusic, updateMusic, moveMusic, deleteMusic, createArtist } from './services/api';
 import './App.css';
 
 function App() {
-  const [cards, setCards] = useState([]);
+  const [musics, setMusics] = useState([]);
+  const [artists, setArtists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editingCard, setEditingCard] = useState(null);
+  
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [artistModalOpen, setArtistModalOpen] = useState(false);
+  const [viewModalOpen, setViewModalOpen] = useState(false);
+  
+  const [editingMusic, setEditingMusic] = useState(null);
+  const [viewingMusic, setViewingMusic] = useState(null);
+  const [message, setMessage] = useState('');
 
-  const fetchCards = async () => {
+  const showMessage = (msg, isError = false) => {
+    if (isError) setError(msg);
+    else setMessage(msg);
+    setTimeout(() => {
+      setError(null);
+      setMessage('');
+    }, 5000);
+  };
+
+  const fetchData = async () => {
     try {
       setError(null);
-      const data = await getCards();
-      setCards(data);
+      const [musicsData, artistsData] = await Promise.all([getMusics(), getArtists()]);
+      setMusics(musicsData);
+      setArtists(artistsData);
     } catch (err) {
-      setError('Erro ao carregar cards. Verifique se o backend esta rodando.');
+      showMessage('Erro ao carregar dados. Verifique se o backend está rodando.', true);
       console.error(err);
     } finally {
       setLoading(false);
@@ -25,59 +44,87 @@ function App() {
   };
 
   useEffect(() => {
-    fetchCards();
+    fetchData();
   }, []);
 
-  const handleOpenCreate = () => {
-    setEditingCard(null);
-    setModalOpen(true);
+  const handleOpenCreateMusic = () => {
+    setEditingMusic(null);
+    setEditModalOpen(true);
   };
 
-  const handleEdit = (card) => {
-    setEditingCard(card);
-    setModalOpen(true);
+  const handleOpenCreateArtist = () => {
+    setArtistModalOpen(true);
   };
 
-  const handleSave = async (cardData) => {
+  const handleViewMusic = (music) => {
+    setViewingMusic(music);
+    setViewModalOpen(true);
+  };
+
+  const handleEditClick = (music) => {
+    setViewModalOpen(false);
+    setEditingMusic(music);
+    setEditModalOpen(true);
+  };
+
+  const handleSaveMusic = async (musicData, selectedArtistId, addToAnotherArtist) => {
     try {
-      if (editingCard) {
-        const updated = await updateCard(editingCard.id, cardData);
-        setCards((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+      if (editingMusic) {
+        const updated = await updateMusic(musicData);
+        if (addToAnotherArtist && selectedArtistId) {
+          await createMusic(selectedArtistId, musicData); 
+        }
+        showMessage('Música atualizada com sucesso!');
+        fetchData();
       } else {
-        const created = await createCard(cardData);
-        setCards((prev) => [...prev, created]);
+        await createMusic(selectedArtistId, musicData);
+        showMessage('Música criada com sucesso!');
+        fetchData();
       }
     } catch (err) {
       console.error(err);
-      alert('Erro ao salvar card.');
+      showMessage(err.message || 'Erro ao salvar música.', true);
     }
   };
 
-  // Move card — usado pelo drag and drop E pelo modal
-  const handleMove = async (id, newStatus) => {
+  const handleSaveArtist = async (artistData) => {
     try {
-      const updated = await moveCard(id, newStatus);
-      setCards((prev) => prev.map((c) => (c.id === updated.id ? updated : c)));
+      await createArtist(artistData);
+      showMessage('Artista criado com sucesso!');
+      fetchData();
     } catch (err) {
       console.error(err);
-      alert('Erro ao mover card.');
+      showMessage('Erro ao criar artista.', true);
+    }
+  };
+
+  const handleMove = async (id, newGenre) => {
+    try {
+      setMusics(prev => prev.map(m => m.id === id ? { ...m, genre: newGenre } : m));
+      await moveMusic(id, newGenre);
+      fetchData();
+    } catch (err) {
+      console.error(err);
+      showMessage('Erro ao mover música. A API pode não ter o endpoint implementado.', true);
+      fetchData();
     }
   };
 
   const handleDelete = async (id) => {
     try {
-      await deleteCard(id);
-      setCards((prev) => prev.filter((c) => c.id !== id));
+      await deleteMusic(id);
+      setMusics((prev) => prev.filter((m) => m.id !== id));
+      showMessage('Música deletada com sucesso!');
     } catch (err) {
       console.error(err);
-      alert('Erro ao deletar card.');
+      showMessage('Erro ao deletar música.', true);
     }
   };
 
   if (loading) {
     return (
       <div className="app">
-        <div className="app__loading">Carregando board...</div>
+        <div className="app__loading">Carregando músicas...</div>
       </div>
     );
   }
@@ -85,28 +132,48 @@ function App() {
   return (
     <div className="app">
       <header className="app__header">
-        <h1>Scrum Board</h1>
-        <p>Arraste cards entre colunas para organizar suas tarefas</p>
+        <h1 className="logo">Musicam Fluere</h1>
+        <p>Gerencie suas músicas por estilo</p>
       </header>
 
       {error && <div className="app__error">{error}</div>}
+      {message && <div className="app__message">{message}</div>}
 
       <Board
-        cards={cards}
-        onEdit={handleEdit}
+        musics={musics}
+        onView={handleViewMusic}
         onDelete={handleDelete}
         onMove={handleMove}
       />
 
-      <button className="fab" onClick={handleOpenCreate} title="Novo Card">
-        +
-      </button>
+      <div className="fab-container">
+        <button className="fab fab--artist" onClick={handleOpenCreateArtist} title="Novo Artista">
+          +
+        </button>
+        <button className="fab" onClick={handleOpenCreateMusic} title="Nova Música">
+          🎵
+        </button>
+      </div>
 
-      <CardModal
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
-        onSave={handleSave}
-        editingCard={editingCard}
+      <EditMusicModal
+        isOpen={editModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        onSave={handleSaveMusic}
+        editingMusic={editingMusic}
+        artists={artists}
+      />
+
+      <ArtistModal
+        isOpen={artistModalOpen}
+        onClose={() => setArtistModalOpen(false)}
+        onSave={handleSaveArtist}
+      />
+
+      <ViewMusicModal
+        isOpen={viewModalOpen}
+        onClose={() => setViewModalOpen(false)}
+        music={viewingMusic}
+        onEdit={() => handleEditClick(viewingMusic)}
       />
     </div>
   );
