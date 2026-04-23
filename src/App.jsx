@@ -11,11 +11,11 @@ function App() {
   const [artists, setArtists] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  
+
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [artistModalOpen, setArtistModalOpen] = useState(false);
   const [viewModalOpen, setViewModalOpen] = useState(false);
-  
+
   const [editingMusic, setEditingMusic] = useState(null);
   const [viewingMusic, setViewingMusic] = useState(null);
   const [message, setMessage] = useState('');
@@ -72,7 +72,7 @@ function App() {
       if (editingMusic) {
         const updated = await updateMusic(musicData);
         if (addToAnotherArtist && selectedArtistId) {
-          await createMusic(selectedArtistId, musicData); 
+          await createMusic(selectedArtistId, musicData);
         }
         showMessage('Música atualizada com sucesso!');
         fetchData();
@@ -151,7 +151,7 @@ function App() {
           +
         </button>
         <button className="fab" onClick={handleOpenCreateMusic} title="Nova Música">
-          🎵
+          <span className="icone-branco">🎵</span>
         </button>
       </div>
 

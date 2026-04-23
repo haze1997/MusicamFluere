@@ -58,6 +58,10 @@
   text-align: center;
   animation: fadeIn 0.3s ease;
 }
+/* Icones */
+.icone-branco{
+    filter: brightness(0) invert(1);
+}
 
 /* ── FABs ───────────────────── */
 .fab-container {

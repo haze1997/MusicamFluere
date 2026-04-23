@@ -3,8 +3,10 @@
   --color-bg: #0b132b;
   --color-surface: #1c2541;
   --color-border: #3a506b;
-  --color-primary: #5bc0be;
-  --color-primary-hover: #6fffe9;
+  --color-primary: #0284c7;       /* Azul oceano profundo */
+  --color-primary-hover: #0369a1; /* Aprofunda o tom no hover */
+  /*--color-primary: #5bc0be;
+  --color-primary-hover: #6fffe9;*/
   --color-text: #ffffff;
   --color-text-muted: #b0c4de;
   --color-text-dim: #7a8b99;
