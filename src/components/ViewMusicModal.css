@@ -1,0 +1,96 @@
+.view-music {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.view-music__header {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 10px;
+}
+
+.view-music__title {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--color-text);
+}
+
+.view-music__artists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+}
+
+.view-music__artist-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.view-music__artist-name {
+  font-size: 0.9rem;
+  color: var(--color-text-muted);
+  font-weight: 500;
+}
+
+.view-music__content h4 {
+  margin-bottom: 8px;
+  color: var(--color-primary);
+}
+
+.view-music__lyrics-container {
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: var(--radius);
+  max-height: 250px;
+  overflow-y: auto;
+}
+
+.view-music__lyrics {
+  margin: 0;
+  white-space: pre-wrap;
+  font-family: inherit;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--color-text);
+}
+
+.view-music__link {
+  margin-top: 15px;
+}
+
+.view-music__link a {
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.view-music__link a:hover {
+  text-decoration: underline;
+}
+
+.view-music__actions {
+  display: flex;
+  justify-content: flex-start;
+  margin-top: 10px;
+}
+
+.view-music__edit-btn {
+  background-color: var(--color-surface);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  padding: 8px 16px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color var(--transition);
+}
+
+.view-music__edit-btn:hover {
+  background-color: var(--color-primary);
+  color: var(--color-white);
+  border-color: var(--color-primary);
+}
