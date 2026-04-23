@@ -2,8 +2,17 @@ import Modal from './Modal';
 import Avatar from './Avatar';
 import './ViewMusicModal.css';
 
+function extractYoutubeId(url = '') {
+  const regex = /(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/;
+  const match = url.match(regex);
+  return match ? match[1] : null;
+}
+
 function ViewMusicModal({ isOpen, onClose, music, onEdit }) {
   if (!music) return null;
+
+  const videoId = extractYoutubeId(music.linkYoutube);
+  const embedUrl = videoId ? `https://www.youtube.com/embed/${videoId}` : null;
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Detalhes da Música">
@@ -20,19 +29,40 @@ function ViewMusicModal({ isOpen, onClose, music, onEdit }) {
           </div>
         </div>
 
-        <div className="view-music__content">
-          <h4>Letra:</h4>
-          <div className="view-music__lyrics-container">
-            <pre className="view-music__lyrics">{music.lyrics}</pre>
+        <div className="view-music__body">
+          {/* Coluna esquerda — vídeo */}
+          <div className="view-music__left">
+            {music.linkYoutube && embedUrl ? (
+              <div className="view-music__video">
+                <div className="view-music__iframe-wrap">
+                  <iframe
+                    src={embedUrl}
+                    title={`Player de ${music.title}`}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                </div>
+                <div className="view-music__link">
+                  <a href={music.linkYoutube} target="_blank" rel="noreferrer">
+                    Assistir no YouTube
+                  </a>
+                </div>
+              </div>
+            ) : (
+              <div className="view-music__no-video">
+                <span>♪</span>
+                <p>Sem vídeo disponível</p>
+              </div>
+            )}
           </div>
-          
-          {music.linkYoutube && (
-            <div className="view-music__link">
-              <a href={music.linkYoutube} target="_blank" rel="noreferrer">
-                Assistir no YouTube
-              </a>
+
+          {/* Coluna direita — letra */}
+          <div className="view-music__right">
+            <h4>Letra:</h4>
+            <div className="view-music__lyrics-container">
+              <pre className="view-music__lyrics">{music.lyrics || 'Sem letra cadastrada.'}</pre>
             </div>
-          )}
+          </div>
         </div>
 
         <div className="view-music__actions">

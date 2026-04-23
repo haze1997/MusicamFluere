@@ -1,10 +1,24 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Modal from './Modal';
 import './CardModal.css';
 
-function ArtistModal({ isOpen, onClose, onSave }) {
+function ArtistModal({ isOpen, onClose, onSave, editingArtist }) {
   const [name, setName] = useState('');
   const [urlImage, setUrlImage] = useState('');
+
+  const isEditing = !!editingArtist;
+
+  useEffect(() => {
+    if (isOpen) {
+      if (editingArtist) {
+        setName(editingArtist.name || '');
+        setUrlImage(editingArtist.urlImage || '');
+      } else {
+        setName('');
+        setUrlImage('');
+      }
+    }
+  }, [isOpen, editingArtist]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -12,14 +26,15 @@ function ArtistModal({ isOpen, onClose, onSave }) {
       alert('Nome é obrigatório!');
       return;
     }
-    onSave({ name, urlImage });
+    const data = isEditing
+      ? { id: editingArtist.id, name, urlImage }
+      : { name, urlImage };
+    onSave(data);
     onClose();
-    setName('');
-    setUrlImage('');
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Novo Artista">
+    <Modal isOpen={isOpen} onClose={onClose} title={isEditing ? 'Editar Artista' : 'Novo Artista'}>
       <form className="card-modal-form" onSubmit={handleSubmit}>
         <label className="card-modal-form__label">
           Nome *
@@ -43,7 +58,7 @@ function ArtistModal({ isOpen, onClose, onSave }) {
         </label>
 
         <button type="submit" className="card-modal-form__button" style={{marginTop: '20px'}}>
-          Criar Artista
+          {isEditing ? 'Salvar Alterações' : 'Criar Artista'}
         </button>
       </form>
     </Modal>
