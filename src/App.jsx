@@ -86,8 +86,9 @@ function App() {
     if (!window.confirm('Tem certeza que deseja deletar este artista?')) return;
     try {
       await deleteArtist(id);
-      setArtists((prev) => prev.filter((a) => a.id !== id));
+      //setArtists((prev) => prev.filter((a) => a.id !== id));
       showMessage('Artista deletado com sucesso!');
+      fetchData();
     } catch (err) {
       console.error(err);
       showMessage('Erro ao deletar artista.', true);

@@ -42,11 +42,6 @@ function ViewMusicModal({ isOpen, onClose, music, onEdit }) {
                     allowFullScreen
                   />
                 </div>
-                <div className="view-music__link">
-                  <a href={music.linkYoutube} target="_blank" rel="noreferrer">
-                    Assistir no YouTube
-                  </a>
-                </div>
               </div>
             ) : (
               <div className="view-music__no-video">

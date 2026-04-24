@@ -25,6 +25,10 @@
   animation: cardSlideIn 0.2s ease;
 }
 
+.modal-musica{
+    max-width: 1250px;
+}
+
 .modal__header {
   display: flex;
   justify-content: space-between;
