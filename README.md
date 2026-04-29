@@ -12,7 +12,7 @@ O **MusicamFluere** é uma aplicação web imersiva para o gerenciamento de sua 
 - **Gerenciamento de Artistas:** Barra lateral dedicada para adicionar, listar, editar (nome e foto de perfil) e deletar artistas, com integração direta ao catálogo de músicas.
 - **Navegação e Filtros:** Filtragem rápida de músicas por gêneros musicais através do menu lateral.
 - **Estatísticas Rápidas:** Contador no painel principal exibindo o total de músicas, artistas, faixas com vídeo e covers.
-- **Feedback Visual:** Alertas dinâmicos de sucesso ao criar, atualizar ou remover itens (músicas e artistas).
+- **Feedback Visual:** Alertas dinâmicos de sucesso ou erro ao criar, atualizar ou remover itens (músicas e artistas).
 
 ## Tecnologias Utilizadas
 - **React (v19):** Biblioteca principal para a construção da interface de usuário.
