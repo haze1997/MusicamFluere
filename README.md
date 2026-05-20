@@ -38,20 +38,17 @@ git clone https://github.com/haze1997/MusicamFluere.git
 # 2. Acesse a pasta do projeto
 cd MusicamFluere
 
-# 3. Mude para a branch correta
-git checkout v2-frontend-projeto-final
-
-# 4. Instale as dependências
+# 3. Instale as dependências
 npm install
 
-# 5. Inicie o servidor de desenvolvimento
+# 4. Inicie o servidor de desenvolvimento
 npm run dev
 ```
 Após iniciar o servidor, acesse o projeto no navegador em `http://localhost:5173`.
 
 ### Opção 2: Rodando via Docker (Produção)
 
-Certifique-se de estar na pasta do projeto e na branch correta (`v2-frontend-projeto-final`). E estar rodando o backend do projeto que pode ser baixado em https://github.com/haze1997/MusicamFluereAPI
+Certifique-se de estar na pasta do projeto e na branch correta (`main`). E estar rodando o backend do projeto que pode ser baixado em https://github.com/haze1997/MusicamFluereAPI
 
 ```bash
 # 1. Construa a imagem Docker - comando de exemplo, certifique-se de especificar os args VITE_API_URL (URL para acessar o backend) e PORT (porta do frontend) corretamente
