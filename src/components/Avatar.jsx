@@ -9,7 +9,6 @@ function getInitials(name) {
 
 function getColor(name) {
   if (!name) return '#888';
-  // Gera uma cor determinística baseada no nome
   let hash = 0;
   for (let i = 0; i < name.length; i++) {
     hash = name.charCodeAt(i) + ((hash << 5) - hash);
@@ -18,9 +17,11 @@ function getColor(name) {
   return `hsl(${hue}, 60%, 45%)`;
 }
 
-function Avatar({ name }) {
+function Avatar({ name, urlImage }) {
   const initials = getInitials(name);
   const color = getColor(name);
+  
+  const isValidUrl = urlImage && (urlImage.startsWith('http') || urlImage.startsWith('data:image'));
 
   return (
     <div
@@ -28,7 +29,11 @@ function Avatar({ name }) {
       style={{ backgroundColor: color }}
       title={name}
     >
-      {initials}
+      {isValidUrl ? (
+        <img src={urlImage} alt={name} className="avatar__img" />
+      ) : (
+        <span>{initials}</span>
+      )}
     </div>
   );
 }

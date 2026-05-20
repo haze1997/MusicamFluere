@@ -1,17 +1,17 @@
 import Column from './Column';
 import './Board.css';
 
-const STATUSES = ['Backlog', 'ToDo', 'Doing', 'Testing', 'Done'];
+const GENRES = ['Rock', 'Pop', 'Reggae', 'Eletronica', 'Rap'];
 
-function Board({ cards, onEdit, onDelete, onMove }) {
+function Board({ musics, onView, onDelete, onMove }) {
   return (
     <div className="board">
-      {STATUSES.map((status) => (
+      {GENRES.map((genre) => (
         <Column
-          key={status}
-          title={status}
-          cards={cards.filter((card) => card.status === status)}
-          onEdit={onEdit}
+          key={genre}
+          title={genre}
+          musics={musics.filter((music) => music.genre === genre)}
+          onView={onView}
           onDelete={onDelete}
           onMove={onMove}
         />

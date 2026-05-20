@@ -5,20 +5,26 @@
 }
 
 .app__header {
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   padding: 16px 24px;
-  background-color: var(--color-border);
+  background-color: var(--color-surface);
+  border-bottom: 2px solid var(--color-border);
   box-shadow: var(--shadow);
 }
 
-.app__header h1 {
-  font-size: 1.5rem;
-  color: var(--color-white);
-  margin-bottom: 2px;
+.app__header h1.logo {
+  font-size: 1.8rem;
+  color: var(--color-primary);
+  margin-bottom: 4px;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-style: italic;
+  letter-spacing: 1px;
 }
 
 .app__header p {
-  font-size: 0.85rem;
+  font-size: 0.9rem;
   color: var(--color-text-muted);
 }
 
@@ -42,30 +48,63 @@
   animation: fadeIn 0.3s ease;
 }
 
-/* ── FAB (Floating Action Button) ───────────────────── */
-.fab {
+.app__message {
+  background-color: rgba(76, 175, 80, 0.1);
+  border: 1px solid var(--color-success);
+  color: var(--color-success);
+  padding: 12px 20px;
+  margin: 10px 20px;
+  border-radius: var(--radius);
+  text-align: center;
+  animation: fadeIn 0.3s ease;
+}
+/* Icones */
+.icone-branco{
+    filter: brightness(0) invert(1);
+}
+
+/* ── FABs ───────────────────── */
+.fab-container {
   position: fixed;
   bottom: 24px;
   right: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  z-index: 900;
+}
+
+.fab {
   width: 56px;
   height: 56px;
   border: none;
   border-radius: 50%;
   background-color: var(--color-primary);
-  color: var(--color-white);
-  font-size: 1.8rem;
-  line-height: 1;
+  color: var(--color-bg);
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
   box-shadow: var(--shadow-lg);
-  transition: background-color var(--transition), transform var(--transition),
-    box-shadow var(--transition);
-  z-index: 900;
+  transition: background-color var(--transition), transform var(--transition), box-shadow var(--transition);
+}
+
+.fab--artist {
+  background-color: var(--color-border);
+  color: var(--color-text);
+  font-size: 1.2rem;
 }
 
 .fab:hover {
   background-color: var(--color-primary-hover);
   transform: scale(1.1);
   box-shadow: 0 12px 28px rgba(0, 0, 0, 0.4);
+}
+
+.fab--artist:hover {
+  background-color: var(--color-text-muted);
+  color: var(--color-bg);
 }
 
 .fab:active {

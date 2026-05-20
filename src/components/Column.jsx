@@ -1,18 +1,18 @@
 import { useState } from 'react';
-import Card from './Card';
+import MusicCard from './MusicCard';
 import './Column.css';
 
-const STATUS_COLORS = {
-  Backlog: 'var(--color-backlog)',
-  ToDo: 'var(--color-todo)',
-  Doing: 'var(--color-doing)',
-  Testing: 'var(--color-testing)',
-  Done: 'var(--color-done)',
+const GENRE_COLORS = {
+  Rock: 'var(--color-rock)',
+  Pop: 'var(--color-pop)',
+  Reggae: 'var(--color-reggae)',
+  Eletronica: 'var(--color-eletronica)',
+  Rap: 'var(--color-rap)',
 };
 
-function Column({ title, cards, onEdit, onDelete, onMove }) {
+function Column({ title, musics, onView, onDelete, onMove }) {
   const [isDragOver, setIsDragOver] = useState(false);
-  const color = STATUS_COLORS[title] || '#888';
+  const color = GENRE_COLORS[title] || '#888';
 
   const handleDragOver = (e) => {
     e.preventDefault();
@@ -21,7 +21,6 @@ function Column({ title, cards, onEdit, onDelete, onMove }) {
   };
 
   const handleDragLeave = (e) => {
-    // Só desativa se saiu da coluna (não de um filho)
     if (!e.currentTarget.contains(e.relatedTarget)) {
       setIsDragOver(false);
     }
@@ -31,9 +30,9 @@ function Column({ title, cards, onEdit, onDelete, onMove }) {
     e.preventDefault();
     setIsDragOver(false);
 
-    const cardId = e.dataTransfer.getData('text/plain');
-    if (cardId) {
-      onMove(cardId, title);
+    const musicId = e.dataTransfer.getData('text/plain');
+    if (musicId) {
+      onMove(musicId, title);
     }
   };
 
@@ -49,21 +48,21 @@ function Column({ title, cards, onEdit, onDelete, onMove }) {
         <h3 className="column__title" style={{ color }}>
           {title}
         </h3>
-        <span className="column__count">{cards.length}</span>
+        <span className="column__count">{musics.length}</span>
       </div>
 
       <div className="column__cards">
-        {cards.map((card) => (
-          <Card
-            key={card.id}
-            card={card}
-            onEdit={onEdit}
+        {musics.map((music) => (
+          <MusicCard
+            key={music.id}
+            music={music}
+            onView={onView}
             onDelete={onDelete}
           />
         ))}
-        {cards.length === 0 && (
+        {musics.length === 0 && (
           <p className="column__empty">
-            {isDragOver ? 'Solte aqui!' : 'Nenhum card'}
+            {isDragOver ? 'Solte aqui!' : 'Nenhuma música'}
           </p>
         )}
       </div>

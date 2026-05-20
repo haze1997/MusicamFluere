@@ -18,7 +18,7 @@
   border: 1px solid var(--color-border);
   border-radius: var(--radius-lg);
   width: 90%;
-  max-width: 500px;
+  max-width: 920px;
   max-height: 90vh;
   overflow-y: auto;
   box-shadow: var(--shadow-lg);
