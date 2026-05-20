@@ -22,6 +22,23 @@ export async function createArtist(artist) {
   return res.json();
 }
 
+export async function updateArtist(artist) {
+  const res = await fetch(`${API_URL}/api/artists/${artist.id}`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(artist),
+  });
+  if (!res.ok) throw new Error('Erro ao atualizar artista');
+  return res.json();
+}
+
+export async function deleteArtist(id) {
+  const res = await fetch(`${API_URL}/api/artists/${id}`, {
+    method: 'DELETE',
+  });
+  if (!res.ok) throw new Error('Erro ao deletar artista');
+}
+
 export async function createMusic(artistId, music) {
   const res = await fetch(`${API_URL}/api/artists/${artistId}/music`, {
     method: 'POST',

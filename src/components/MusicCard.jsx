@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Avatar from './Avatar';
 import './Card.css';
 
 function MusicCard({ music, onView, onDelete }) {
@@ -45,16 +44,11 @@ function MusicCard({ music, onView, onDelete }) {
       <p className="card__description">{truncateLyrics(music.lyrics)}</p>
 
       <div className="card__footer">
-        <div className="card__assignee-info" style={{ display: 'flex', gap: '4px' }}>
+        <div className="card__assignee-info">
           {music.artists && music.artists.map(artist => (
-             <span key={artist.id} style={{
-                 backgroundColor: 'var(--color-primary)', 
-                 color: 'white', 
-                 padding: '2px 6px', 
-                 borderRadius: '4px',
-                 fontSize: '12px',
-                 fontWeight: 'bold'
-             }}>{artist.name ? artist.name.charAt(0).toUpperCase() : '?'}</span>
+             <span key={artist.id} className="card__artist-chip">
+               {artist.name ? artist.name.charAt(0).toUpperCase() : '?'}
+             </span>
           ))}
         </div>
       </div>
