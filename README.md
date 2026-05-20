@@ -64,4 +64,3 @@ Após o container iniciar, acesse no seu navegador através da porta mapeada, ge
 
 ## Licença
 Este projeto está licenciado sob os termos da **Apache License 2.0**. Consulte o arquivo `LICENSE` no repositório para mais detalhes.
-`
